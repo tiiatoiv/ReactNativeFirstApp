@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 
-const useFetch = (url) => {
+const apiUrl = 'http://media.mw.metropolia.fi/wbma/';
+
+const getAllMedia = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchUrl = async () => {
     try {
-      const response = await fetch(url);
+      const response = await fetch(apiUrl + 'media');
       const json = await response.json();
       setData(json);
       setLoading(false);
@@ -21,4 +23,4 @@ const useFetch = (url) => {
   return [data, loading];
 }
 
-export { useFetch };
+export { getAllMedia };

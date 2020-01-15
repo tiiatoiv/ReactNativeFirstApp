@@ -14,7 +14,7 @@ const ListItem = (props) => {
       <View style={styles.imagebox}>
         <Image
           style={styles.image}
-          source={{uri: props.singleMedia.thumbnails.w160}}
+          source={{uri:'http://media.mw.metropolia.fi/wbma/uploads/' + props.singleMedia.filename}}
         />
       </View>
       <View style={styles.textbox}>
