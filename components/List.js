@@ -2,6 +2,7 @@
 import React, {useContext} from 'react';
 import {
   FlatList,
+  StyleSheet
 } from 'react-native';
 import ListItem from './ListItem';
 import PropTypes from 'prop-types';
@@ -14,7 +15,7 @@ const List = (props) => {
   console.log('List', data, loading);
   setMedia(data);
   return (
-    <FlatList
+    <FlatList style={styles.container}
       data={media}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({item}) => <ListItem singleMedia={item} />}
@@ -24,5 +25,12 @@ const List = (props) => {
 List.propTypes = {
   mediaArray: PropTypes.array,
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#000',
+    margin: 0,
+  },
+});
 
 export default List;
