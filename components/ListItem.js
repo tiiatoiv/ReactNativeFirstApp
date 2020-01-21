@@ -10,7 +10,18 @@ import PropTypes from 'prop-types';
 
 const ListItem = (props) => {
   return (
-    <TouchableOpacity style={styles.row}>
+    <TouchableOpacity
+      style={styles.row}
+      onPress={
+        () => {
+          props.navigation.push('Single', {
+            title: props.singleMedia.title,
+            filename: props.singleMedia.filename,
+            description: props.singleMedia.description,
+          });
+        }
+      }
+    >
       <View style={styles.imagebox}>
         <Image
           style={styles.image}
