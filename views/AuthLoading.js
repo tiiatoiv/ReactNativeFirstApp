@@ -6,6 +6,7 @@ import {
   View,
   Text,
 } from 'react-native';
+import propTypes from 'prop-types';
 
 const bootstrapAsync = async (props) => {
   async function getToken() {
@@ -29,6 +30,10 @@ const AuthLoading = (props) => {
       <StatusBar barStyle="default" />
     </View>
   );
+};
+
+AuthLoading.propTypes = {
+  navigation: propTypes.object,
 };
 
 export default AuthLoading;
