@@ -5,6 +5,7 @@ import {
   Text,
   Button,
   AsyncStorage,
+  ImageBackground
 } from 'react-native';
 import useSignUpForm from '../hooks/LoginHooks';
 import propTypes from 'prop-types';
@@ -38,70 +39,106 @@ const Login = (props) => { // props is needed for navigation
   };
 
   return (
-    <View style={styles.container}>
+    <View>
+      <ImageBackground source={require('../views/card42.png')} style={{width: '100%', height: '100%'}}>
+        <View style={styles.container}>
+          <View style={styles.form}>
+            <Text style={styles.title}>Login</Text>
+            <View>
+              <FormTextInput
+                style={styles.inputStyle}
+                autoCapitalize='none'
+                placeholder='username'
+                onChangeText={handleUsernameChange}
+                value={inputs.username}
+              />
+              <FormTextInput
+                style={styles.inputStyle}
+                autoCapitalize='none'
+                placeholder='password'
+                onChangeText={handlePasswordChange}
+                secureTextEntry={true}
+                value={inputs.password}
+              />
+              <Button title="Sign in!" color='#000' onPress={signInAsync} />
+            </View>
+          </View>
 
-      <View style={styles.form}>
-        <Text>Login</Text>
-        <View>
-          <FormTextInput
-            autoCapitalize='none'
-            placeholder='username'
-            onChangeText={handleUsernameChange}
-            value={inputs.username}
-          />
-          <FormTextInput
-            autoCapitalize='none'
-            placeholder='password'
-            onChangeText={handlePasswordChange}
-            secureTextEntry={true}
-            value={inputs.password}
-          />
-          <Button title="Sign in!" onPress={signInAsync} />
+          <View style={styles.formReg}>
+            <Text style={styles.title}>Register</Text>
+            <View>
+              <FormTextInput
+                style={styles.inputStyle}
+                autoCapitalize='none'
+                placeholder='username'
+                onChangeText={handleUsernameChange}
+                value={inputs.username}
+              />
+              <FormTextInput
+                style={styles.inputStyle}
+                autoCapitalize='none'
+                placeholder='password'
+                onChangeText={handlePasswordChange}
+                secureTextEntry={true}
+                value={inputs.password}
+              />
+              <FormTextInput
+                style={styles.inputStyle}
+                autoCapitalize='none'
+                placeholder='email'
+                onChangeText={handleEmailChange}
+                value={inputs.email}
+              />
+              <FormTextInput
+                style={styles.inputStyle}
+                autoCapitalize='none'
+                placeholder='fullname'
+                onChangeText={handleFullnameChange}
+                value={inputs.full_name}
+              />
+              <Button color='grey' title="Register!" onPress={registerAsync} />
+            </View>
+          </View>
         </View>
-      </View>
-
-      <View style={styles.form}>
-        <Text>Register</Text>
-        <View>
-          <FormTextInput
-            autoCapitalize='none'
-            placeholder='username'
-            onChangeText={handleUsernameChange}
-            value={inputs.username}
-          />
-          <FormTextInput
-            autoCapitalize='none'
-            placeholder='password'
-            onChangeText={handlePasswordChange}
-            secureTextEntry={true}
-            value={inputs.password}
-          />
-          <FormTextInput
-            autoCapitalize='none'
-            placeholder='email'
-            onChangeText={handleEmailChange}
-            value={inputs.email}
-          />
-          <FormTextInput
-            autoCapitalize='none'
-            placeholder='fullname'
-            onChangeText={handleFullnameChange}
-            value={inputs.full_name}
-          />
-          <Button title="Register!" onPress={registerAsync} />
-        </View>
-      </View>
-
+      </ImageBackground>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 40,
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  form: {
+    width: 250,
+    paddingBottom: 60,
+    borderBottomColor: '#000',
+    borderBottomWidth: 1,
+    borderStyle: 'solid',
+    backgroundColor: '#fff',
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  formReg: {
+    width: 250,
+    paddingTop: 20,
+    paddingBottom: 40,
+    backgroundColor: '#fff',
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  inputStyle: {
+    padding: 10,
+    margin: 6,
   },
 });
 

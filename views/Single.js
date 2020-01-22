@@ -20,7 +20,7 @@ const Single = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 10,
@@ -34,11 +34,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 20,
     fontWeight: 'bold',
+    color: '#fff',
   },
   pStyle: {
     fontSize: 14,
     textAlign: 'center',
     margin: 10,
+    color: '#fff',
   }
 });
 

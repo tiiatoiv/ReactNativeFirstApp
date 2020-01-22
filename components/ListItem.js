@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     padding: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     marginBottom: 5,
     borderRadius: 16,
   },
@@ -59,10 +59,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     paddingBottom: 15,
-    color: '#000',
+    color: '#fff',
   },
   pStyle: {
-    color: '#000',
+    color: '#fff',
   }
 });
 
