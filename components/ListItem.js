@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     padding: 15,
-    backgroundColor: '#ccc',
+    backgroundColor: '#000',
     marginBottom: 5,
     borderRadius: 16,
   },
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    borderRadius: 16,
+    borderRadius: 100,
   },
   textbox: {
     flex: 2,
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     paddingBottom: 15,
+    color: '#fff',
   },
 });
 
