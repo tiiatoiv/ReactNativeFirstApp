@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import { Container, Header } from 'native-base';
 import PropTypes from 'prop-types';
 
 const ListItem = (props) => {
@@ -39,8 +40,7 @@ const ListItem = (props) => {
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    padding: 15,
-    backgroundColor: '#000',
+    backgroundColor: '#fff',
     marginBottom: 5,
     borderRadius: 16,
   },
@@ -49,21 +49,21 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    borderRadius: 100,
+    width: 70,
+    height: 40,
   },
   textbox: {
     flex: 2,
-    padding: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   listTitle: {
-    fontWeight: 'bold',
     fontSize: 20,
-    paddingBottom: 15,
-    color: '#fff',
+    color: '#000',
   },
   pStyle: {
-    color: '#fff',
-  }
+    color: '#000',
+  },
 });
 
 ListItem.propTypes = {
