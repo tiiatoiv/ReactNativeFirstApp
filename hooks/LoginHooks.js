@@ -11,6 +11,14 @@ const constraints = {
       message: 'Your username must containt at least 3 characters',
     },
   },
+  email: {
+    presence: {
+      message: 'you must give a valid email',
+    },
+    email: {
+      message: 'not valid',
+    },
+  },
   password: {
     presence: {
       message: 'password required',
@@ -19,8 +27,11 @@ const constraints = {
       minimum: 5,
       message: 'Your password must be at least 5 characters',
     },
-    email: {
-
+  },
+  confirmPassword: {
+    precense: 'cannot be blank',
+    equality: {
+      attribute: 'password',
     },
   },
 };
@@ -37,12 +48,20 @@ const useSignUpForm = () => {
       }));
   };
   const handlePasswordChange = (text) => {
+    const checkpw = validate({password: text}, constraints);
+    console.log('password validate', checkpw);
     setInputs((inputs) =>
       ({
         ...inputs,
         password: text,
       }));
   };
+
+  const handlePasswordEquality = (text) => {
+    const checkeq = validate({password: text, confirmPassword: text}, constraints);
+    console.log('check equality', checkeq);
+  };
+
   const handleEmailChange = (text) => {
     setInputs((inputs) =>
       ({
@@ -57,11 +76,13 @@ const useSignUpForm = () => {
         full_name: text,
       }));
   };
+
   return {
     handleUsernameChange,
     handleEmailChange,
     handleFullnameChange,
     handlePasswordChange,
+    handlePasswordEquality,
     inputs,
   };
 };

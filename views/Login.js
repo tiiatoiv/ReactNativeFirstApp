@@ -12,7 +12,6 @@ import propTypes from 'prop-types';
 import FormTextInput from '../components/FormTextInput';
 import {login, register} from '../hooks/APIHooks';
 import {useState} from 'react';
-import {Item} from 'native-base';
 
 // const {inputs, handleUsernameChange, handlePasswordChange} = useSignUpForm(signInAsync);
 
@@ -20,7 +19,15 @@ const Login = (props) => { // props is needed for navigation
   const url = 'http://media.mw.metropolia.fi/wbma/';
   const [toggleForm, setToggleForm] = useState(true);
   const [error, setError] = useState(error);
-  const {inputs, handleUsernameChange, handleEmailChange, handleFullnameChange, handlePasswordChange} = useSignUpForm();
+  const {
+    inputs,
+    handleUsernameChange,
+    handleEmailChange,
+    handleFullnameChange,
+    handlePasswordChange,
+    handlePasswordEquality,
+  } = useSignUpForm();
+
   const signInAsync = async () => {
     try {
       const user = await login(inputs.username, inputs.password);
@@ -103,18 +110,14 @@ const Login = (props) => { // props is needed for navigation
                   secureTextEntry={true}
                   value={inputs.password}
                 />
-                {!error &&
                 <FormTextInput
                   style={styles.inputStyle}
                   autoCapitalize='none'
-                  placeholder='password'
-                  onChangeText={handlePasswordChange}
+                  placeholder='password again'
+                  onChangeText={handlePasswordEquality}
                   secureTextEntry={true}
-                  value={inputs.passwordsecond}
-                />}
-                {error &&
-                  <FormTextInput />
-                }
+                  value={inputs.confirmPassword}
+                />
                 <FormTextInput
                   style={styles.inputStyle}
                   autoCapitalize='none'
