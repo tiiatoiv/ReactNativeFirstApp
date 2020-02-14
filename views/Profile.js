@@ -1,11 +1,49 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, AsyncStorage, Button, ImageBackground} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  Container,
+  Content,
+  Card,
+  CardItem,
+  Text,
+  Body,
+  Button,
+  Icon,
+} from 'native-base';
+import {AsyncStorage} from 'react-native';
+import PropTypes from 'prop-types';
+import {fetchGET} from '../hooks/APIHooks';
+import AsyncImage from '../components/AsyncImage';
+import {Dimensions} from 'react-native';
+import {mediaURL} from '../constants/urlConst';
+
+const deviceHeight = Dimensions.get('window').height;
+
 
 const Profile = (props) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    userdata: {},
+    avatar: 'https://',
+  });
   const userToState = async () => {
-    const userFromStorage = await AsyncStorage.getItem('user');
-    setUser(JSON.parse(userFromStorage));
+    try {
+      const userFromStorage = await AsyncStorage.getItem('user');
+      const uData = JSON.parse(userFromStorage);
+      const avatarPic = await fetchGET('tags', 'avatar_' + uData.user_id);
+      console.log('avpic', avatarPic);
+      let avPic = '';
+      if (avatarPic.length === 0) { // if avatar is not set
+        avPic = 'https://placekitten.com/1024/1024';
+      } else {
+        avPic = mediaURL + avatarPic[0].filename;
+      }
+      setUser((user) => (
+        {
+          userdata: uData,
+          avatar: avPic,
+        }));
+    } catch (e) {
+      console.log('Profile error: ', e.message);
+    }
   };
 
   useEffect(() => {
@@ -17,57 +55,48 @@ const Profile = (props) => {
     props.navigation.navigate('Auth');
   };
 
+  console.log('ava', mediaURL + user.avatar);
   return (
-    <View style={styles.container}>
-      <ImageBackground source={require('../views/card42.png')} style={{width: '100%', height: '100%'}}>
-        <View style={styles.infoBox}>
-          <Text style={styles.title}>Profile</Text>
-          <Text style={styles.infotextMain}>{user.username}</Text>
-          <Text style={styles.infotext}>{user.email}</Text>
-          <Text style={styles.infotext}>{user.full_name}</Text>
-          <Button color='lightgrey' title="Logout" onPress={signOutAsync} />
-        </View>
-      </ImageBackground>
-    </View>
+    <Container>
+      <Content>
+        <Card>
+          <CardItem header bordered>
+            <Icon name='person'/>
+            <Text>Username: {user.userdata.username}</Text>
+          </CardItem>
+          <CardItem>
+            <Body>
+              <AsyncImage
+                style={{
+                  width: '100%',
+                  height: deviceHeight / 2,
+                }}
+                spinnerColor='#777'
+                source={{uri: user.avatar}}
+              />
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Body>
+              <Text>Fullname: {user.userdata.full_name}</Text>
+              <Text numberOfLines={1}>email: {user.userdata.email}</Text>
+            </Body>
+          </CardItem>
+          <CardItem footer bordered>
+            <Body>
+              <Button full onPress={signOutAsync}>
+                <Text>Logout</Text>
+              </Button>
+            </Body>
+          </CardItem>
+        </Card>
+      </Content>
+    </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 40,
-  },
-  infoBox: {
-    borderStyle: 'solid',
-    borderColor: '#000',
-    borderWidth: 1,
-    padding: 20,
-    margin: 10,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  infotextMain: {
-    margin: 10,
-    fontSize: 16,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  infotext: {
-    margin: 10,
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  profileButton: {
-    backgroundColor: '#fff',
-    color: '#000',
-  },
-});
+Profile.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default Profile;

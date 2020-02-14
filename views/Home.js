@@ -1,24 +1,19 @@
-/* eslint-disable max-len */
 import React from 'react';
-import {StyleSheet, View, ImageBackground} from 'react-native';
 import List from '../components/List';
+import PropTypes from 'prop-types';
+import {View} from 'native-base';
+import ImageBackground from 'react-native';
 
 const Home = (props) => {
+  // console.log('Home', props);
   const {navigation} = props;
   return (
-    <View style={styles.container}>
-
-        <List navigation={navigation}></List>
-
-    </View>
+    <List navigation={navigation}></List>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 40,
-    backgroundColor: '#fff',
-  },
-});
+Home.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default Home;

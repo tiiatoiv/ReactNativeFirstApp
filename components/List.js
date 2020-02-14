@@ -1,35 +1,52 @@
 /* eslint-disable max-len */
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
-  FlatList,
-} from 'react-native';
+  List as BaseList, Spinner, View,
+} from 'native-base';
 import ListItem from './ListItem';
-import PropTypes from 'prop-types';
 import {MediaContext} from '../contexts/MediaContext';
 import {getAllMedia} from '../hooks/APIHooks';
-import {List as BaseList, ListItem as BaseItem} from 'native-base';
+import PropTypes from 'prop-types';
 
 const List = (props) => {
   const [media, setMedia] = useContext(MediaContext);
-  const [data, loading] = getAllMedia();
-  console.log('List', data, loading);
-  setMedia(data);
+  const [loading, setLoading] = useState(true);
+
+  const getMedia = async () => {
+    try {
+      const data = await getAllMedia();
+      setMedia(data.reverse());
+      setLoading(false);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  useEffect(() => {
+    getMedia();
+  }, []);
+
   return (
-    <FlatList
-      data={media}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={
-        ({item}) =>
-        <BaseItem>
-        <ListItem
-          navigation={props.navigation}
-          singleMedia={item} />
-          </BaseItem>}
-    />
+    <View>
+
+      {loading ? (
+        <Spinner/>
+      ) : (
+        <BaseList
+          dataArray={media}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}) => <ListItem
+            navigation={props.navigation}
+            singleMedia={item}
+          />}
+        />
+      )}
+    </View>
   );
 };
+
 List.propTypes = {
-  mediaArray: PropTypes.array,
+  navigation: PropTypes.object,
 };
 
 export default List;

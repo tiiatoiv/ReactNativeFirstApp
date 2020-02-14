@@ -4,19 +4,18 @@ import {
   AsyncStorage,
   StatusBar,
   View,
-  Text,
 } from 'react-native';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 const bootstrapAsync = async (props) => {
-  async function getToken() {
+  const getToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
 
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
     console.log('token', userToken);
     props.navigation.navigate(userToken ? 'App' : 'Auth');
-  }
+  };
   useEffect(() => {
     getToken();
   }, []);
@@ -26,14 +25,14 @@ const AuthLoading = (props) => {
   bootstrapAsync(props);
   return (
     <View>
-      <ActivityIndicator />
-      <StatusBar barStyle="default" />
+      <ActivityIndicator/>
+      <StatusBar barStyle="default"/>
     </View>
   );
 };
 
 AuthLoading.propTypes = {
-  navigation: propTypes.object,
+  navigation: PropTypes.object,
 };
 
 export default AuthLoading;

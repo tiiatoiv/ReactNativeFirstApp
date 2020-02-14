@@ -1,76 +1,68 @@
-import { useState, useEffect } from "react";
+import {apiUrl} from '../constants/urlConst';
 
-const apiUrl = 'http://media.mw.metropolia.fi/wbma/';
 
-const getAllMedia = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchUrl = async () => {
-    try {
-      const response = await fetch(apiUrl + 'media');
-      const json = await response.json();
-      setData(json);
-      setLoading(false);
-    } catch (e) {
-      console.log('error', e.message);
-    }
-  };
-
-  useEffect(() => {
-    fetchUrl();
-  }, []);
-  return [data, loading];
-};
-
-const login = async (uName, pWord) => {
-  const data = {
-    username: uName,
-    password: pWord,
-  };
-
+const fetchGET = async (endpoint = '', params = '', token = '') => {
   const fetchOptions = {
-    method: 'POST',
     headers: {
-
-      'Content-Type': 'application/json',
+      'x-access-token': token,
     },
-    body: JSON.stringify(data),
   };
-
-  try {
-    const response = await fetch(apiUrl + 'login', fetchOptions);
-    const json = await response.json();
-    return json;
-  } catch (e) {
-    console.log('error', e.message);
+  const response = await fetch(apiUrl + endpoint + '/' + params,
+      fetchOptions);
+  if (!response.ok) {
+    throw new Error('fetchGET error: ' + response.status);
   }
+  return await response.json();
 };
 
-const register = async (uName, pWord, email, fName) => {
-  const data = {
-    username: uName,
-    password: pWord,
-    email: email,
-    full_name: fName,
-  };
-
+const fetchPOST = async (endpoint = '', data = {}, token = '') => {
   const fetchOptions = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'x-access-token': token,
     },
     body: JSON.stringify(data),
   };
-
-  try {
-    const response = await fetch(apiUrl + 'users', fetchOptions);
-    const json = await response.json();
-    return json;
-  } catch (e) {
-    console.log('error', e.message);
+  const response = await fetch(apiUrl + endpoint, fetchOptions);
+  const json = await response.json();
+  console.log(json);
+  if (response.status === 400 || response.status === 401) {
+    const message = Object.values(json).join();
+    throw new Error(message);
+  } else if (response.status > 299) {
+    throw new Error('fetchPOST error: ' + response.status);
   }
+  return json;
 };
 
+const fetchFormData = async (
+  endpoint = '', data = new FormData(), token = '') => {
+  const fetchOptions = {
+    method: 'POST',
+    headers: {
+      'x-access-token': token,
+    },
+    body: data,
+  };
+  const response = await fetch(apiUrl + endpoint, fetchOptions);
+  const json = await response.json();
+  console.log(json);
+  if (response.status === 400 || response.status === 401) {
+    const message = Object.values(json).join();
+    throw new Error(message);
+  } else if (response.status > 299) {
+    throw new Error('fetchPOST error: ' + response.status);
+  }
+  return json;
+};
 
-export {getAllMedia, login, register};
+const getAllMedia = async () => {
+  const json = await fetchGET('media/all');
+  const result = await Promise.all(json.files.map(async (item) => {
+    return await fetchGET('media', item.file_id);
+  }));
+  return result;
+};
+
+export {getAllMedia, fetchGET, fetchPOST, fetchFormData};

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MyAppSecond",
-    "slug": "MyAppSecond",
+    "name": "exampleProject",
+    "slug": "exampleProject",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
