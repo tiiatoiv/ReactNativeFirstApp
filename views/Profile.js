@@ -62,7 +62,7 @@ const Profile = (props) => {
         <Card>
           <CardItem header bordered>
             <Icon name='person'/>
-            <Text>Username: {user.userdata.username}</Text>
+            <Text style={{color: '#000'}}>Username: {user.userdata.username}</Text>
           </CardItem>
           <CardItem>
             <Body>
@@ -84,8 +84,8 @@ const Profile = (props) => {
           </CardItem>
           <CardItem footer bordered>
             <Body>
-              <Button full onPress={signOutAsync}>
-                <Text>Logout</Text>
+              <Button style={{backgroundColor: '#000'}} full onPress={signOutAsync}>
+                <Text style={{color: '#fff'}}>Logout</Text>
               </Button>
             </Body>
           </CardItem>

@@ -34,11 +34,15 @@ const TabNavigator = createBottomTabNavigator(
           return <Icon
             name={iconName}
             size={25}
+            style={{color: 'white'}}
           />;
         },
       }),
       tabBarOptions: {
-        activeTintColor: '#000',
+        activeTintColor: '#fff',
+        style: {
+          backgroundColor: '#000',
+        },
       },
     },
 );

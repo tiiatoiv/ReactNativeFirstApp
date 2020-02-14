@@ -7,6 +7,8 @@ import ListItem from './ListItem';
 import {MediaContext} from '../contexts/MediaContext';
 import {getAllMedia} from '../hooks/APIHooks';
 import PropTypes from 'prop-types';
+import {ImageBackground} from 'react-native';
+import bGround from '../views/card42.png';
 
 const List = (props) => {
   const [media, setMedia] = useContext(MediaContext);
@@ -28,7 +30,6 @@ const List = (props) => {
 
   return (
     <View>
-
       {loading ? (
         <Spinner/>
       ) : (

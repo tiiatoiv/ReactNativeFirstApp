@@ -27,12 +27,14 @@ const ListItem = (props) => {
         <Text numberOfLines={1}>{props.singleMedia.description}</Text>
       </Body>
       <Right>
-        <Button onPress={
-          () => {
-            props.navigation.push('Single', {file: props.singleMedia});
-          }
-        }>
-          <Text>View</Text>
+        <Button
+          style={{backgroundColor: '#fff'}}
+          onPress={
+            () => {
+              props.navigation.push('Single', {file: props.singleMedia});
+            }
+          }>
+          <Text style={{color: '#000'}}>View</Text>
         </Button>
       </Right>
     </BaseListItem>
