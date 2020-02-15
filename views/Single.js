@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Container,
   Content,
@@ -12,37 +12,62 @@ import {
 } from 'native-base';
 import PropTypes from 'prop-types';
 import AsyncImage from '../components/AsyncImage';
+import { Video } from 'expo-av';
 import {Dimensions} from 'react-native';
 import {mediaURL} from '../constants/urlConst';
+import { getUser } from '../hooks/APIHooks';
 
 const deviceHeight = Dimensions.get('window').height;
-
-console.log('dh', deviceHeight);
 
 
 const Single = (props) => {
   const {navigation} = props;
-  console.log('Singel navi', navigation.state);
+  const [owner, setOwner] = useState({});
   const file = navigation.state.params.file;
+
+  const getOwner = async () => {
+    const owner = await getUser(file.user_id);
+    setOwner(owner);
+  };
+
+  useEffect(() => {
+    getOwner();
+  }, []);
+
   return (
     <Container>
       <Content>
         <Card>
           <CardItem>
-            <AsyncImage
+            {file.media_type === 'image' ?
+            (<AsyncImage
               style={{
                 width: '100%',
                 height: deviceHeight / 2,
               }}
               spinnerColor='#777'
               source={{uri: mediaURL + file.filename}}
-            />
+            />)
+          :
+            (<Video
+              source={{uri: mediaURL + file.filename}}
+              rate={1.0}
+              volumn={1.0}
+              isMuted={false}
+              resizeMode='contain'
+              shouldPlay
+              isLooping
+              useNativeControls
+              style={{width:'100%', height: deviceHeight/2}}
+            />)
+            }
           </CardItem>
           <CardItem>
             <Left>
               <Icon name='image'/>
               <Body>
                 <H3>{file.title}</H3>
+                <Text>{owner.username}</Text>
                 <Text>{file.description}</Text>
                 <Text>By {file.user_id}</Text>
               </Body>

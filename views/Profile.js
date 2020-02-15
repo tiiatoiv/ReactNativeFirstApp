@@ -55,6 +55,10 @@ const Profile = (props) => {
     props.navigation.navigate('Auth');
   };
 
+  const openMyFiles = async () => {
+    props.navigation.navigate('MyFiles');
+  };
+
   console.log('ava', mediaURL + user.avatar);
   return (
     <Container>
@@ -86,6 +90,9 @@ const Profile = (props) => {
             <Body>
               <Button full onPress={signOutAsync}>
                 <Text>Logout</Text>
+              </Button>
+              <Button onPress={openMyFiles}>
+                <Text>My Posts</Text>
               </Button>
             </Body>
           </CardItem>

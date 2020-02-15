@@ -1,4 +1,5 @@
 import {apiUrl} from '../constants/urlConst';
+import {AsyncStorage} from 'react-native';
 
 
 const fetchGET = async (endpoint = '', params = '', token = '') => {
@@ -36,6 +37,14 @@ const fetchPOST = async (endpoint = '', data = {}, token = '') => {
   return json;
 };
 
+const getUsersFiles = async (token) => {
+  const json = await fetchGET('media/user', '', token);
+  const result = await Promise.all(json.map(async (item) => {
+    return await fetchGET('media', item.file_id);
+  }));
+  return result;
+};
+
 const fetchFormData = async (
   endpoint = '', data = new FormData(), token = '') => {
   const fetchOptions = {
@@ -65,4 +74,13 @@ const getAllMedia = async () => {
   return result;
 };
 
-export {getAllMedia, fetchGET, fetchPOST, fetchFormData};
+const getUser = async (id) => {
+  try {
+    const token = await AsyncStorage.getItem('userToken');
+    return await fetchGET('users', id, token);
+  } catch {
+    console.log(e.message);
+  }
+};
+
+export {getAllMedia, fetchGET, fetchPOST, fetchFormData, getUsersFiles, getUser};
