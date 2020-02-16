@@ -15,7 +15,7 @@ import AsyncImage from '../components/AsyncImage';
 import { Video } from 'expo-av';
 import {Dimensions} from 'react-native';
 import {mediaURL} from '../constants/urlConst';
-import { getUser } from '../hooks/APIHooks';
+import { getUser, getLikes } from '../hooks/APIHooks';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -23,6 +23,7 @@ const deviceHeight = Dimensions.get('window').height;
 const Single = (props) => {
   const {navigation} = props;
   const [owner, setOwner] = useState({});
+  const [likes, setLikes] = useState({});
   const file = navigation.state.params.file;
 
   const getOwner = async () => {
@@ -30,8 +31,17 @@ const Single = (props) => {
     setOwner(owner);
   };
 
+  const getPostLikes = async () => {
+    let likes = [];
+    likes = await getLikes(file.file_id);
+    console.log('called like for file:', file.file_id);
+    setLikes(likes);
+    console.log('Likes:', likes);
+  };
+
   useEffect(() => {
     getOwner();
+    getPostLikes();
   }, []);
 
   return (
@@ -67,9 +77,9 @@ const Single = (props) => {
               <Icon name='image'/>
               <Body>
                 <H3>{file.title}</H3>
-                <Text>{owner.username}</Text>
                 <Text>{file.description}</Text>
-                <Text>By {file.user_id}</Text>
+                <Text>By {owner.username}</Text>
+                <Text>{} Likes</Text>
               </Body>
             </Left>
           </CardItem>
